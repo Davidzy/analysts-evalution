@@ -67,8 +67,6 @@ class VerifyTest(object):
         onames = ['o' + str(p) for p in self.veriperiod]
         for report in self.reports:
             i += 1
-            if i > 1:
-                break
             print("No.{no:d} / {total}: report {stkcd} {rank} on {date} by \
             {names} processed.".format(
                         no=i, stkcd=report['Stkcd'], total=len(self.reports),
@@ -115,7 +113,6 @@ class VerifyTest(object):
                 if calc_x:
                     print("calculate x ration")
                     xratio = self._calc_xdays(vdays, sdays)
-                    print(xratio)
                     dbop.db_update_doc(
                         collection=self.reports_collection, doc=report,
                         nl=xnames, dl=xratio)
