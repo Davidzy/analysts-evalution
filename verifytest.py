@@ -1,7 +1,7 @@
 import pymongo
 import datetime
 import numpy as np
-import report as rv
+import reportverify as rv
 from data import MongoDBHandler
 
 from utils import dbop
@@ -36,11 +36,18 @@ class VerifyTest(object):
             self.begin, self.end, self.ranktypes, self.stks, self.ananms)
         self.reports_collection = self._reports_collection()
         self.reports = list(self.reports_collection.find(self.query))
+        self.removed_collection = self._removed_collection()
 
     def _reports_collection(self):
         client = pymongo.MongoClient(self.db_addr)
         db = client[self.db_name]
         collection = db[self.collection_name]
+        return collection
+
+    def _removed_collection(self):
+        client = pymongo.MongoClient(self.db_addr)
+        db = client[self.db_name]
+        collection = db['removedreports']
         return collection
 
     def _generate_query(self, begin, end, ranktypes=None, stks=None,
@@ -132,6 +139,7 @@ class VerifyTest(object):
             except (IndexError, ValueError, AssertionError) as e:
                 print(i, e)
                 print(report)
+                self.removed_collection.insert_one(report)
                 self.reports_collection.delete_one({'_id': report['_id']})
 
 

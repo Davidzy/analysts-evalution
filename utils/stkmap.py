@@ -4,7 +4,8 @@ def to_collection_name(stkcd):
     :param stkcd:
     :return:
     """
-    collection_name = ('SH' + stkcd) if stkcd[0] == '6' else ('SZ' + stkcd)
+    #collection_name = ('SH' + stkcd) if stkcd[0] == '6' else ('SZ' + stkcd)
+    collection_name = 'c' + stkcd
     return collection_name
 
 
